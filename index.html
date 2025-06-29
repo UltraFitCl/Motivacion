@@ -1,67 +1,82 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-<title>Tu dosis diaria</title>
-<style>
-  /* Reset básico */
-  * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-  }
-  html, body {
-    height: 100%;
-    background-color: #000;
-    color: #fff;
-    font-family: sans-serif;
-    text-align: center;
-  }
-  body {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    min-height: 100vh;
-    padding: env(safe-area-inset-top) 20px 20px 20px;
-    -webkit-text-size-adjust: none;
-    text-size-adjust: none;
-  }
-  img.logo {
-    width: 150px;
-    margin-bottom: 20px;
-  }
-  h2 {
-    font-size: 28px;
-    margin-bottom: 20px;
-  }
-  .frase {
-    font-size: 22px;
-    max-width: 90%;
-  }
-  .footer {
-    color: gray;
-    font-size: 14px;
-    margin-top: 40px;
-  }
-</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>Frase Motivacional</title>
+  <style>
+    html, body {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+      background-color: #000;
+      color: #fff;
+      font-family: Arial, sans-serif;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      -webkit-text-size-adjust: 100%;
+      text-size-adjust: 100%;
+    }
+
+    #frase {
+      font-size: 1.5rem;
+      margin: 20px;
+      padding: 0 20px;
+      max-width: 90%;
+    }
+
+    .download-btn {
+      display: inline-block;
+      margin-top: 30px;
+      padding: 12px 24px;
+      background-color: #ffffff;
+      color: #000;
+      text-decoration: none;
+      font-weight: bold;
+      border-radius: 12px;
+    }
+
+    .download-btn:hover {
+      background-color: #eeeeee;
+    }
+
+    .footer {
+      font-size: 0.9rem;
+      color: #aaa;
+      margin-top: 40px;
+    }
+  </style>
 </head>
 <body>
-  <img src="https://i.imgur.com/nbAlI1R.png" alt="UltraFit Logo" class="logo" />
-  <h2>🔥 Tu frase de hoy:</h2>
-  <div class="frase" id="frase">Cargando...</div>
-  <div class="footer">Recarga para una nueva dosis de motivación</div>
+  <div id="frase">Cargando frase...</div>
+
+  <a id="descargar" class="download-btn" download="frase-ultrafit.png">📥 Descargar imagen</a>
+
+  <div class="footer">Haz una captura de pantalla, y comparte en tus historias etiquetandonos 🚀</div>
 
   <script>
+    // Cargar frase desde tu Google Script
     fetch("https://script.google.com/macros/s/AKfycby3ifoTohqh2wshHIQN0jcaJQZO5a8pnMkN94j_AhzPPB2dLCds3AoGfr2u4AmaxNIGkA/exec")
-      .then(response => response.text())
+      .then(res => res.text())
       .then(text => {
-        document.getElementById("frase").innerText = `"${text}"`;
-      })
-      .catch(() => {
-        document.getElementById("frase").innerText = "No se pudo cargar la frase 😢";
+        document.getElementById("frase").innerText = text;
+        generarImagen();
       });
+
+    // Generar imagen descargable
+    function generarImagen() {
+      setTimeout(() => {
+        html2canvas(document.body).then(canvas => {
+          document.getElementById("descargar").href = canvas.toDataURL("image/png");
+        });
+      }, 500); // Esperamos que cargue bien el texto
+    }
   </script>
+
+  <!-- Librería html2canvas para convertir la frase en imagen -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 </body>
 </html>
